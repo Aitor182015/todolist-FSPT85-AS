@@ -1,24 +1,30 @@
-import React from "react";
+import React, {useState} from "react";
 
-//include images into your bundle
-import rigoImage from "../../img/rigo-baby.jpg";
-
-//create your first component
 const Home = () => {
+
+	const [inputValue, setInputValue] = useState("")
+	const [toDolist, setToDoList] = useState([])
+
+
 	return (
-		<div className="text-center">
-			<h1 className="text-center mt-5">Hello Rigo!</h1>
-			<p>
-				<img src={rigoImage} />
-			</p>
-			<a href="#" className="btn btn-success">
-				If you see this green button... bootstrap is working...
-			</a>
-			<p>
-				Made by{" "}
-				<a href="http://www.4geeksacademy.com">4Geeks Academy</a>, with
-				love!
-			</p>
+		<div className="container">
+			<h1>To Do list</h1>
+			<ul>
+				<li><input type="text" onChange={(e)=>setInputValue(e.target.value)} onKeyDown={
+					(a)=> {
+						if (a.key === "Enter") {
+							setToDoList(toDolist.concat(inputValue));
+							setInputValue("");
+						}
+					}
+				} value={inputValue} placeholder="¿Qué tienes que hacer?"></input></li>
+				
+				{toDolist.map((item, index) => (
+					<li className="todo-item-list" key={index}>{item} <span className="fa-solid fa-xmark" onClick={()=>setToDoList(toDolist.filter((i,currentIndex) => index !=currentIndex))}></span></li>
+				))}
+				
+			</ul>
+			<div>{toDolist.length} Tareas pendientes</div>
 		</div>
 	);
 };
